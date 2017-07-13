@@ -16,7 +16,7 @@
 # To install in $HOME instead of /usr/local, use:
 #    make install prefix=$HOME
 
-CC=/Users/bgrinstead/Code/emscripten/emcc
+CC=/usr/disoul/works/emsdk/emscripten/incoming/emcc
 
 CFLAGS= -D_LARGEFILE64_SOURCE=1
 #CFLAGS=-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7
@@ -27,24 +27,24 @@ CFLAGS= -D_LARGEFILE64_SOURCE=1
 SFLAGS= -D_LARGEFILE64_SOURCE=1
 LDFLAGS= -L. libz.a
 TEST_LDFLAGS=-L. libz.a
-LDSHARED=/Users/bgrinstead/Code/emscripten/emcc
-CPP=/Users/bgrinstead/Code/emscripten/emcc -E
+LDSHARED=/usr/disoul/works/emsdk/emscripten/incoming/emcc
+CPP=/usr/disoul/works/emsdk/emscripten/incoming/emcc -E
 
 STATICLIB=libz.a
-SHAREDLIB=
-SHAREDLIBV=
-SHAREDLIBM=
+SHAREDLIB=libz.so
+SHAREDLIBV=libz.so.1.2.5
+SHAREDLIBM=libz.so.1
 LIBS=$(STATICLIB) $(SHAREDLIBV)
 
-AR=/Users/bgrinstead/Code/emscripten/emar rc
-RANLIB=/Users/bgrinstead/Code/emscripten/emranlib
+AR=/usr/disoul/works/emsdk/emscripten/incoming/emar rc
+RANLIB=/usr/disoul/works/emsdk/emscripten/incoming/emranlib
 LDCONFIG=ldconfig
 LDSHAREDLIBC=-lc
 TAR=tar
 SHELL=/bin/sh
 EXE=
 
-prefix =/Users/bgrinstead/Sites/videoconverter.js/build/zlib/../dist
+prefix =/usr/disoul/videoconverter.js/build/zlib/../dist
 exec_prefix =${prefix}
 libdir =${exec_prefix}/lib
 sharedlibdir =${libdir}
@@ -67,7 +67,7 @@ OBJS = $(OBJC) $(OBJA)
 
 PIC_OBJS = $(PIC_OBJC) $(PIC_OBJA)
 
-all: static all64
+all: static shared all64
 
 static: example$(EXE) minigzip$(EXE)
 
@@ -77,7 +77,7 @@ all64: example64$(EXE) minigzip64$(EXE)
 
 check: test
 
-test: all teststatic test64
+test: all teststatic testshared test64
 
 teststatic: static
 	@if echo hello world | ./minigzip | ./minigzip -d && ./example; then \
