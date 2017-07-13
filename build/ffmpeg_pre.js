@@ -8,7 +8,7 @@ The source code used to build this file can be obtained at https://github.com/bg
 and in zip form at https://github.com/bgrins/videoconverter.js/archive/master.zip
 */
 
-function ffmpeg_run(opts) {
+function ffmpeg_run(opts, cb) {
   var isNode = typeof(exports) !== 'undefined';
   if (!isNode) {
     var Module = {
@@ -36,6 +36,9 @@ function ffmpeg_run(opts) {
     Module['postRun'] = function() {
       var handle = FS.analyzePath(Module['outputDirectory']);
       Module['return'] = getAllBuffers(handle);
+      // use callback to get buffer
+      // fix in wasm mode
+      cb(Module['return']);
     };
     function getAllBuffers(result) {
       var buffers = [];
