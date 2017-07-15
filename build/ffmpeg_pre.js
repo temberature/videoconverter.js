@@ -8,7 +8,7 @@ The source code used to build this file can be obtained at https://github.com/bg
 and in zip form at https://github.com/bgrins/videoconverter.js/archive/master.zip
 */
 
-function ffmpeg_run(opts, cb, pre) {
+function ffmpeg_run(opts, cb) {
   var isNode = typeof(exports) !== 'undefined';
   if (!isNode) {
     var Module = {
@@ -36,7 +36,6 @@ function ffmpeg_run(opts, cb, pre) {
       }, '/input');
       FS.createFolder('/', Module['outputDirectory'], true, true);
       }
-      pre && pre();
     };
     Module['postRun'] = function() {
       var handle = FS.analyzePath(Module['outputDirectory']);
