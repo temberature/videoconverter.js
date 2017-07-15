@@ -8,7 +8,7 @@ The source code used to build this file can be obtained at https://github.com/bg
 and in zip form at https://github.com/bgrins/videoconverter.js/archive/master.zip
 */
 
-function ffmpeg_run(opts, cb) {
+function ffmpeg_run(opts, cb, pre) {
   var isNode = typeof(exports) !== 'undefined';
   if (!isNode) {
     var Module = {
@@ -22,16 +22,21 @@ function ffmpeg_run(opts, cb) {
       Module['arguments'][Module['arguments'].length - 1] = "output/" + outputFilePath;
     }
     Module['preRun'] = function() {
-      FS.createFolder('/', Module['outputDirectory'], true, true);
-      /* fileData / fileName is deprecated - please use file.name and file.data instead */
-      if (Module['fileData']) {
-        FS.createDataFile('/', Module['fileName'], Module['fileData'], true, true);
-      }
+      
       if (Module['files']) {
+      FS.createFolder('/', 'input', true, true);
+/*
         Module['files'].forEach(function(file) {
           FS.createDataFile('/', file.name, file.data, true, true);
         });
+*/
+      console.log(Module['files']);
+      FS.mount(WORKERFS, {
+        files: Module['files'],
+      }, '/input');
+      FS.createFolder('/', Module['outputDirectory'], true, true);
       }
+      pre && pre();
     };
     Module['postRun'] = function() {
       var handle = FS.analyzePath(Module['outputDirectory']);

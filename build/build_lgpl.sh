@@ -34,7 +34,7 @@ rm *.bc
 cp lib/libz.a libz.bc
 cp ../ffmpeg/ffmpeg ffmpeg.bc
 
-emcc -s WASM=1 -s VERBOSE=1 -s TOTAL_MEMORY=33554432 -O2 -v ffmpeg.bc -o ../ffmpeg.js --pre-js ../ffmpeg_pre.js --post-js ../ffmpeg_post.js
+emcc -s WASM=1 -s VERBOSE=1 -s TOTAL_MEMORY=33554432 -s ALLOW_MEMORY_GROWTH=1 -O2 -v ffmpeg.bc -o ../ffmpeg.js --pre-js ../ffmpeg_pre.js --post-js ../ffmpeg_post.js
 
 cd ..
 
