@@ -28,13 +28,13 @@ function stopRunning() {
 function retrieveSampleImage() {
   var oReq = new XMLHttpRequest();
   oReq.open("GET", "bigbuckbunny.jpg", true);
-  oReq.responseType = "arraybuffer";
+  oReq.responseType = "blob";
 
   oReq.onload = function (oEvent) {
-    var arrayBuffer = oReq.response;
-    if (arrayBuffer) {
-      sampleImageData = new Uint8Array(arrayBuffer);
-    }
+    sampleImageData = oReq.response;
+    // if (arrayBuffer) {
+    //   sampleImageData = new Uint8Array(arrayBuffer);
+    // }
   };
 
   oReq.send(null);
@@ -43,13 +43,13 @@ function retrieveSampleImage() {
 function retrieveSampleVideo() {
   var oReq = new XMLHttpRequest();
   oReq.open("GET", "bigbuckbunny.webm", true);
-  oReq.responseType = "arraybuffer";
+  oReq.responseType = "blob";
 
   oReq.onload = function (oEvent) {
-    var arrayBuffer = oReq.response;
-    if (arrayBuffer) {
-      sampleVideoData = new Uint8Array(arrayBuffer);
-    }
+    sampleVideoData = oReq.response;
+    // if (arrayBuffer) {
+    //   sampleVideoData = new Uint8Array(arrayBuffer);
+    // }
   };
 
   oReq.send(null);
@@ -114,7 +114,7 @@ function getDownloadLink(fileData, fileName) {
 }
 
 function initWorker() {
-  worker = new Worker("worker-asm.js");
+  worker = new Worker("worker.js");
   worker.onmessage = function (event) {
     var message = event.data;
     if (message.type == "ready") {

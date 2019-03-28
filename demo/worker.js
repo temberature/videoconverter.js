@@ -1,4 +1,4 @@
-importScripts('../build/ffmpeg.js');
+importScripts('./ffmpeg.js');
 
 var now = Date.now;
 
@@ -38,18 +38,19 @@ onmessage = function(event) {
     });
 
     var time = now();
-    var result = ffmpeg_run(Module);
+    ffmpeg_run(Module, function(result) {
 
-    var totalTime = now() - time;
-    postMessage({
-      'type' : 'stdout',
-      'data' : 'Finished processing (took ' + totalTime + 'ms)'
-    });
+      var totalTime = now() - time;
+      postMessage({
+        'type' : 'stdout',
+        'data' : 'Finished processing (took ' + totalTime + 'ms)'
+      });
 
-    postMessage({
-      'type' : 'done',
-      'data' : result,
-      'time' : totalTime
+      postMessage({
+        'type' : 'done',
+        'data' : result,
+        'time' : totalTime
+      });
     });
   }
 };
